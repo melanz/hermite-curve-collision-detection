@@ -1,0 +1,15 @@
+{
+  "name": "hermite-collision-detection",
+  "version": "0.0.0",
+  "description": "Collision detection of Hermitian curves using nonlinear optimization.",
+  "main": "beam.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Daniel Melanz",
+  "license": "MIT",
+  "dependencies": {
+    "n-body-pairs": "~0.1.0",
+    "mathopt": "0.0.1"
+  }
+}
