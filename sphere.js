@@ -1,3 +1,4 @@
+// constructor
 function Sphere(r, rho, pos) {
     // data
 	this.radius = r;
@@ -59,7 +60,7 @@ Sphere.prototype.doTimeStep = function() {
         console.log(groundForce);
     }
     
-	var mass = 1;//4*this.density*this.r*this.r*this.r*Math.PI/3;
+	var mass = 4*this.density*this.r*this.r*this.r*Math.PI/3;
 	
     this.acceleration.x = this.force.x/mass+this.system.gravity.x;
 	this.acceleration.y = this.force.y/mass+this.system.gravity.y;

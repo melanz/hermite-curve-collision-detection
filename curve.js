@@ -17,7 +17,8 @@ function Curve(r, nodeLoc1, nodeVel1, nodeLoc2, nodeVel2, delta) {
 // functions
 Curve.prototype.getXYZPointAlongLength = function(xi) {
 	//var point = hermite([this.p[0],this.p[1],this.p[2]],[this.p[3],this.p[4],this.p[5]],[this.p[6],this.p[7],this.p[8]],[this.p[9],this.p[10],this.p[11]], xi);
-	var a = this.length;
+	
+    var a = this.length;
 	var pos = new THREE.Vector3(0,0,0);
 	pos.x = (1 - 3 * xi * xi + 2 * Math.pow(xi, 3)) * this.p[0] + a * (xi - 2 * xi * xi + Math.pow(xi, 3)) * this.p[3] + (3 * xi * xi - 2 * Math.pow(xi, 3)) * this.p[6] + a * (-xi * xi + Math.pow(xi, 3)) * this.p[9];
     pos.y = (1 - 3 * xi * xi + 2 * Math.pow(xi, 3)) * this.p[1] + a * (xi - 2 * xi * xi + Math.pow(xi, 3)) * this.p[4] + (3 * xi * xi - 2 * Math.pow(xi, 3)) * this.p[7] + a * (-xi * xi + Math.pow(xi, 3)) * this.p[10];
@@ -136,7 +137,7 @@ Curve.prototype.checkCollision_opt = function(curve) {
 }
 
 Curve.prototype.doTimeStep = function() {
-    
+    // these curves are static and cannot move (nothing to do in the time loop)
 }
 
 module.exports = Curve;

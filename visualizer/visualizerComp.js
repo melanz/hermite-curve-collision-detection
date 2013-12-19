@@ -18,7 +18,8 @@ function Curve(r, nodeLoc1, nodeVel1, nodeLoc2, nodeVel2, delta) {
 // functions
 Curve.prototype.getXYZPointAlongLength = function(xi) {
 	//var point = hermite([this.p[0],this.p[1],this.p[2]],[this.p[3],this.p[4],this.p[5]],[this.p[6],this.p[7],this.p[8]],[this.p[9],this.p[10],this.p[11]], xi);
-	var a = this.length;
+	
+    var a = this.length;
 	var pos = new THREE.Vector3(0,0,0);
 	pos.x = (1 - 3 * xi * xi + 2 * Math.pow(xi, 3)) * this.p[0] + a * (xi - 2 * xi * xi + Math.pow(xi, 3)) * this.p[3] + (3 * xi * xi - 2 * Math.pow(xi, 3)) * this.p[6] + a * (-xi * xi + Math.pow(xi, 3)) * this.p[9];
     pos.y = (1 - 3 * xi * xi + 2 * Math.pow(xi, 3)) * this.p[1] + a * (xi - 2 * xi * xi + Math.pow(xi, 3)) * this.p[4] + (3 * xi * xi - 2 * Math.pow(xi, 3)) * this.p[7] + a * (-xi * xi + Math.pow(xi, 3)) * this.p[10];
@@ -137,7 +138,7 @@ Curve.prototype.checkCollision_opt = function(curve) {
 }
 
 Curve.prototype.doTimeStep = function() {
-    
+    // these curves are static and cannot move (nothing to do in the time loop)
 }
 
 module.exports = Curve;
@@ -629,6 +630,7 @@ function createNBodyDataStructure(dimension, num_points) {
 module.exports = createNBodyDataStructure
 
 },{}],4:[function(require,module,exports){
+// constructor
 function Sphere(r, rho, pos) {
     // data
 	this.radius = r;
@@ -690,7 +692,7 @@ Sphere.prototype.doTimeStep = function() {
         console.log(groundForce);
     }
     
-	var mass = 1;//4*this.density*this.r*this.r*this.r*Math.PI/3;
+	var mass = 4*this.density*this.r*this.r*this.r*Math.PI/3;
 	
     this.acceleration.x = this.force.x/mass+this.system.gravity.x;
 	this.acceleration.y = this.force.y/mass+this.system.gravity.y;
@@ -713,6 +715,7 @@ Sphere.prototype.doTimeStep = function() {
 
 module.exports = Sphere;
 },{}],5:[function(require,module,exports){
+// constructor
 function System(timeStep,groundHeight,scene,shadows) {
     // data
 	this.groundHeight = groundHeight;
@@ -738,8 +741,6 @@ System.prototype.add = function(object) {
 	}
 }
 
-System.prototype.drawAll = function() {
-}
 System.prototype.doTimeStep = function() {
     
 	for ( var i = 0, l = this.objects.length; i < l; i ++ ) {
@@ -751,37 +752,6 @@ System.prototype.doTimeStep = function() {
 }
 
 System.prototype.drawGround = function() {
-	/*
-	geometry = new THREE.PlaneGeometry( 2000, 2000, 100, 100 );
-	geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
-
-	for ( var i = 0, l = geometry.vertices.length; i < l; i ++ ) {
-
-		var vertex = geometry.vertices[ i ];
-		//vertex.x += Math.random() * 20 - 10;
-		vertex.y = this.groundHeight;
-		//vertex.z += Math.random() * 20 - 10;
-
-	}
-
-
-	for ( var i = 0, l = geometry.faces.length; i < l; i=i+2 ) {
-
-		var face = geometry.faces[ i ];
-		if(this.shadows) face.receiveShadow = true;
-		face.vertexColors[ 0 ] = new THREE.Color().setHSL( 1.94, .87, .67 );
-		face.vertexColors[ 1 ] = new THREE.Color().setHSL( 1.94, .87, .67 );
-		face.vertexColors[ 2 ] = new THREE.Color().setHSL( 1.94, .87, .67 );
-
-	}
-
-	material = new THREE.MeshLambertMaterial( { vertexColors: THREE.VertexColors } );
-	//material = new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture('sand.jpg')});
-
-	mesh = new THREE.Mesh( geometry, material );
-	if(this.shadows) mesh.receiveShadow = true;
-	this.scene.add( mesh );
-	*/
 	var ground = new THREE.Mesh(
 		new THREE.PlaneGeometry( 30, 30 ),
 		new THREE.MeshLambertMaterial({ color: 0x33CC33 })
@@ -792,26 +762,7 @@ System.prototype.drawGround = function() {
 	ground.receiveShadow = true;
 	this.scene.add( ground );
 }
-/*
-System.prototype.drawSphere = function(radius, scene, position) {
-		// create the sphere's material
-		var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xCC0000});
 
-		// set up the sphere vars
-		var segments = 16, rings = 16;
-
-		// create a new mesh with sphere geometry -
-		// we will cover the sphereMaterial next!
-		sphere = new THREE.Mesh(
-		   new THREE.SphereGeometry(radius, segments, rings),
-		   sphereMaterial);
-		   
-		sphere.position = position;
-
-		// add the sphere to the scene
-		scene.add(sphere);
-}
-*/
 module.exports = System;
 },{}],6:[function(require,module,exports){
 var System = require("../system.js");
