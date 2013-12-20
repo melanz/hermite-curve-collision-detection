@@ -25,7 +25,6 @@ var mySystem = new System(.001,0,new THREE.Scene(),1);
 var radius = Math.random();
 
 var curve1 = new Curve(radius, new THREE.Vector3(10*Math.random(),10*Math.random(),10*Math.random()), new THREE.Vector3(Math.random(),Math.random(),Math.random()) , new THREE.Vector3(10*Math.random(),10*Math.random(),10*Math.random()) , new THREE.Vector3(Math.random(),Math.random(),Math.random()), radius*.2);
-
 var curve2 = new Curve(radius, new THREE.Vector3(10*Math.random(),10*Math.random(),10*Math.random()), new THREE.Vector3(Math.random(),Math.random(),Math.random()) , new THREE.Vector3(10*Math.random(),10*Math.random(),10*Math.random()) , new THREE.Vector3(Math.random(),Math.random(),Math.random()), radius*.2);
 
 mySystem.add(curve1);
@@ -62,9 +61,9 @@ The goal of this project is to find the minimum separation distance (MSD) [1] an
 - [mathopt](https://npmjs.org/package/mathopt) is used for optimization
     
 ## References
-[1]	A. Roy, J. A. Carretero, B. J. Buckham, and R. S. Nicoll, “Continuous Collision Detection of Cubic-Spline-Based Tethers in ROV Simulations,” J. Offshore Mech. Arct. Eng., vol. 131, no. 4, p. 041102, 2009.
+[1]	A. Roy, J. A. Carretero, B. J. Buckham, and R. S. Nicoll, “[Continuous Collision Detection of Cubic-Spline-Based Tethers in ROV Simulations](http://offshoremechanics.asmedigitalcollection.asme.org/article.aspx?articleid=1472687),” J. Offshore Mech. Arct. Eng., vol. 131, no. 4, p. 041102, 2009.
 
-[2]	D. Pekerman, G. Elber, and M. S. Kim, “Self-intersection detection and elimination in freeform curves and surfaces,” Comput. Des., vol. 40, no. 2, pp. 150–159, Feb. 2008. 
+[2]	D. Pekerman, G. Elber, and M. S. Kim, “[Self-intersection detection and elimination in freeform curves and surfaces](http://www.sciencedirect.com/science/article/pii/S0010448507002357),” Comput. Des., vol. 40, no. 2, pp. 150–159, Feb. 2008. 
 
 ## Credits
 (c) 2013 Daniel Melanz. MIT License
