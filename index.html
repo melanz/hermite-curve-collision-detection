@@ -1,56 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Hermite curve collision detection : Hermite curve collision detection using nonlinear optimization for use with Absolute Nodal Coordinate Formulation (ANCF)." />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Hermite curve collision detection by melanz</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Hermite curve collision detection</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1>Hermite curve collision detection</h1>
+        <p>Hermite curve collision detection using nonlinear optimization for use with Absolute Nodal Coordinate Formulation (ANCF).</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/melanz/hermite-curve-collision-detection">View on GitHub</a>
+        <p class="view"><a href="https://github.com/melanz/hermite-curve-collision-detection">View the Project on GitHub <small>melanz/hermite-curve-collision-detection</small></a></p>
 
-          <h1 id="project_title">Hermite curve collision detection</h1>
-          <h2 id="project_tagline">Hermite curve collision detection using nonlinear optimization for use with Absolute Nodal Coordinate Formulation (ANCF).</h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/melanz/hermite-curve-collision-detection/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/melanz/hermite-curve-collision-detection/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+        <ul>
+          <li><a href="https://github.com/melanz/hermite-curve-collision-detection/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/melanz/hermite-curve-collision-detection/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/melanz/hermite-curve-collision-detection">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
         <h1>
 <a name="hermite-curve-collision-detection" class="anchor" href="#hermite-curve-collision-detection"><span class="octicon octicon-link"></span></a>hermite-curve-collision-detection</h1>
 
-<p>Hermite curve collision detection using nonlinear optimization for use with Absolute Nodal Coordinate Formulation (ANCF).</p>
+<p>This project implements hermite curve collision detection using nonlinear optimization for use with Absolute Nodal Coordinate Formulation (ANCF). Elements that undergo large deformations and rotations cannot be accurately described with traditional finite element analysis. ANCF was introduced to avoid these issues. For most of the applications involving large deformation finite elements, i.e. polymer, hair, and grass simulation, contact with friction is an integral part of the modeling approach.</p>
 
-<p>This code uses THREE.js for visualization.</p>
+<h2>
+<a name="motivation" class="anchor" href="#motivation"><span class="octicon octicon-link"></span></a>Motivation</h2>
+
+<p>The collision detection problem can be a bottleneck in the simulation of physical systems involving a large number of beams in contact. For instance, for a polymer simulation problem, one has to consider systems with hundreds of thousands of flexible beams interacting through friction and contact. This collision detection task must be performed once at each integration time step. The goal of this project is to implement a collision detection algorithm that efficiently calculates the collisions between two beam elements. This collision detection algorithm will make use of the fact that the shape of the beams is dictated by cubic Hermite splines. Possible external libraries that will be imported will be (i) minimization algorithms, (ii) Hermite-to-Bezier converters, and (iii) broadphase collision algorithms.</p>
+
+<h2>
+<a name="demonstration" class="anchor" href="#demonstration"><span class="octicon octicon-link"></span></a>Demonstration</h2>
+
+<p>This code uses THREE.js for visualization. It has been tested in <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a>.</p>
 
 <p><a href="http://htmlpreview.github.io/?https://github.com/melanz/hermite-curve-collision-detection/blob/master/visualizer/index.html"><img src="https://f.cloud.github.com/assets/5438923/1786261/d4294c08-68f1-11e3-8ade-5cb3c1858c09.png" alt="Screenshot"></a></p>
-      </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Hermite curve collision detection maintained by <a href="https://github.com/melanz">melanz</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+<h2>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h2>
+
+<p>The following code creates two random beams and checks for the minimum separation distance using spherical decomposition and optimization.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// create the system</span>
+<span class="kd">var</span> <span class="nx">System</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"../system.js"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">Curve</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"../curve.js"</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">mySystem</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">System</span><span class="p">(.</span><span class="mi">001</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Scene</span><span class="p">(),</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">radius</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">();</span>
+
+<span class="kd">var</span> <span class="nx">curve1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Curve</span><span class="p">(</span><span class="nx">radius</span><span class="p">,</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()),</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">())</span> <span class="p">,</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">())</span> <span class="p">,</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()),</span> <span class="nx">radius</span><span class="o">*</span><span class="p">.</span><span class="mi">2</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">curve2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Curve</span><span class="p">(</span><span class="nx">radius</span><span class="p">,</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()),</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">())</span> <span class="p">,</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="mi">10</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">())</span> <span class="p">,</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()),</span> <span class="nx">radius</span><span class="o">*</span><span class="p">.</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="nx">mySystem</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">curve1</span><span class="p">);</span>
+<span class="nx">mySystem</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">curve2</span><span class="p">);</span>
+
+<span class="nx">curve1</span><span class="p">.</span><span class="nx">checkCollision_nsquared</span><span class="p">(</span><span class="nx">curve2</span><span class="p">)</span>
+<span class="nx">curve1</span><span class="p">.</span><span class="nx">checkCollision_opt</span><span class="p">(</span><span class="nx">curve2</span><span class="p">);</span>
+
+<span class="c1">// The two collision checks should give similar results</span>
+</pre></div>
+
+<h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<pre><code>npm install hermite-curve-collision-detection
+</code></pre>
+
+<h2>
+<a name="implementation" class="anchor" href="#implementation"><span class="octicon octicon-link"></span></a>Implementation</h2>
+
+<p>Gradient-deficient beams are two node beam elements where one position vector and only one gradient vector are used as nodal coordinates <img src="http://www.sciweavers.org/upload/Tex2Img_1387515217/render.png" alt="Eq1">. Thus each node has 6 coordinates: three components of global position vector of the node and three components of position vector gradient at the node. The global position vector of an arbitrary point on the beam centerline is given by:</p>
+
+<p><img src="http://www.sciweavers.org/upload/Tex2Img_1387516901/render.png" alt="Eq2"></p>
+
+<p>where <img src="http://www.sciweavers.org/upload/Tex2Img_1387516660/render.png" alt="Eq3">is the vector of element nodal coordinates. The shape function matrix for this element is defined as:</p>
+
+<p><img src="http://www.sciweavers.org/upload/Tex2Img_1387516744/render.png" alt="Eq4"></p>
+
+<p>where I is the 3x3 identity matrix and the shape functions  <img src="http://www.sciweavers.org/upload/Tex2Img_1387517018/render.png" alt="Eq5"> are defined as:</p>
+
+<p><img src="http://www.sciweavers.org/upload/Tex2Img_1387517092/render.png" alt="Eq6"></p>
+
+<p>Here <img src="http://www.sciweavers.org/upload/Tex2Img_1387517262/render.png" alt="Eq7">, and <img src="http://www.sciweavers.org/upload/Tex2Img_1387517299/render.png" alt="Eq8"> is the element length. The minimum separation distance is found by minimizing the distance between the two curves:</p>
+
+<p><img src="http://www.sciweavers.org/upload/Tex2Img_1387520176/render.png" alt="Eq9"></p>
+
+<p>The goal of this project is to find the minimum separation distance (MSD) [1] and any self-intersection [2] between the beam elements. The MSD between two general geometrical objects is obtained at a pair of points, one on the surface of each object, where moving either of the points a differential amount in any direction while keeping them on the surfaces of their respective object will not produce a reduction in the Cartesian distance between them. Although this definition may include any stationary point (i.e., maxima, minima, and inflection points), the algorithms used will guarantee that only minima are found. Several <a href="https://npmjs.org/">NPM</a> modules are used:</p>
+
+<ul>
+<li>
+<a href="https://npmjs.org/package/cubic-hermite">cubic-hermite</a> is used for curve interpolation</li>
+<li>
+<a href="https://npmjs.org/package/n-body-pairs">n-body-pairs</a> is used to check collisions with spheres</li>
+<li>
+<a href="https://npmjs.org/package/mathopt">mathopt</a> is used for optimization</li>
+</ul><h2>
+<a name="references" class="anchor" href="#references"><span class="octicon octicon-link"></span></a>References</h2>
+
+<p>[1] A. Roy, J. A. Carretero, B. J. Buckham, and R. S. Nicoll, “<a href="http://offshoremechanics.asmedigitalcollection.asme.org/article.aspx?articleid=1472687">Continuous Collision Detection of Cubic-Spline-Based Tethers in ROV Simulations</a>,” J. Offshore Mech. Arct. Eng., vol. 131, no. 4, p. 041102, 2009.</p>
+
+<p>[2] D. Pekerman, G. Elber, and M. S. Kim, “<a href="http://www.sciencedirect.com/science/article/pii/S0010448507002357">Self-intersection detection and elimination in freeform curves and surfaces</a>,” Comput. Des., vol. 40, no. 2, pp. 150–159, Feb. 2008. </p>
+
+<h2>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
+
+<p>(c) 2013 Daniel Melanz. MIT License</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/melanz">melanz</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-
+    <script src="javascripts/scale.fix.js"></script>
     
-
   </body>
 </html>
