@@ -55,7 +55,7 @@ where I is the 3x3 identity matrix and the shape functions  ![Eq5](http://www.sc
 
 Here ![Eq7](http://www.sciweavers.org/upload/Tex2Img_1387517262/render.png), and ![Eq8](http://www.sciweavers.org/upload/Tex2Img_1387517299/render.png) is the element length. The minimum separation distance is found by minimizing the distance between the two curves:
 
-![Eq9](http://www.sciweavers.org/upload/Tex2Img_1387519989/render.png)
+![Eq9](http://www.sciweavers.org/upload/Tex2Img_1387520176/render.png)
 
 The goal of this project is to find the minimum separation distance (MSD) [1] and any self-intersection [2] between the beam elements. The MSD between two general geometrical objects is obtained at a pair of points, one on the surface of each object, where moving either of the points a differential amount in any direction while keeping them on the surfaces of their respective object will not produce a reduction in the Cartesian distance between them. Although this definition may include any stationary point (i.e., maxima, minima, and inflection points), the algorithms used will guarantee that only minima are found. Several [NPM](https://npmjs.org/) modules are used:
 - [cubic-hermite](https://npmjs.org/package/cubic-hermite) is used for curve interpolation
