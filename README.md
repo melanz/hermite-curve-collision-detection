@@ -8,7 +8,7 @@ The collision detection problem can be a bottleneck in the simulation of physica
 
 ## Demonstration
 
-This code uses THREE.js for visualization. It has been tested in [Chrome](https://www.google.com/intl/en/chrome/browser/).
+This code uses [THREE.js](http://threejs.org/) for visualization. It has been tested in [Chrome](https://www.google.com/intl/en/chrome/browser/).
 
 [![Screenshot](https://f.cloud.github.com/assets/5438923/1786261/d4294c08-68f1-11e3-8ade-5cb3c1858c09.png)](http://htmlpreview.github.io/?https://github.com/melanz/hermite-curve-collision-detection/blob/master/visualizer/index.html)
 
